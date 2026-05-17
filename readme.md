@@ -12,7 +12,7 @@ Pull the dotfiles repo into your home folder and run the install script for your
 
 Clone repository
 ```bash
-git clone --quiet git@github.com:TrousersRippin/dotfiles.git
+git clone --quiet https://github.com/TrousersRippin/dotfiles.git
 ```
 Debian/Ubuntu
 ```bash
