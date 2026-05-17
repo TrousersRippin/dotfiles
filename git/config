@@ -1,0 +1,45 @@
+[advice]
+  addEmptyPathspec = false
+  pushNonFastForward = false
+  statusHints = false
+
+[color]
+  branch = auto
+  status = auto
+  ui = auto
+
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+
+[commit]
+  template = ~/.config/git/message
+
+[core]
+  editor = vim
+
+[credential]
+  helper = osxkeychain
+
+[init]
+  defaultBranch = main
+
+[pull]
+  rebase = true
+
+[push]
+  default = simple
+
+[status]
+  branch = true
+  short = true
+  showStash = true
+  showUntrackedFiles = all
+  verbose = true
+  aheadBehind = true
+
+[user]
+  name = Troy Rippin
+  email = troy_rippin@icloud.com

@@ -1,0 +1,8 @@
+# General
+alias ..='cd ..'
+alias cls='clear'
+alias ll='ls -aFhl'
+alias ls='ls --color=auto -h --group-directories-first'
+alias cat='batcat'
+alias flush='sudo killall -HUP mDNSResponder'
+alias svim='sudo vim'

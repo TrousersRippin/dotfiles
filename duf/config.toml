@@ -1,0 +1,4 @@
+exclude = ["tmpfs", "devtmpfs"]
+output = ["filesystem", "size", "used", "avail", "use", "mountpoint"]
+reverse = true
+sort = "use"

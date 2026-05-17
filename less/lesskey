@@ -1,0 +1,4 @@
+#env
+LESS = --quit-if-one-screen --IGNORE-CASE --LONG-PROMPT --LINE-NUMBERS --hilite-unread --no-init --RAW-CONTROL-CHARS --mouse --use-color
+LESSCHARSET = utf-8
+EDITOR = vim
