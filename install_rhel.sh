@@ -115,11 +115,9 @@ install_starship() {
 install_vim() {
   sudo dnf install -y -q vim > /dev/null 2>&1
   cp -R dotfiles/vim $HOME/.config &&
-  mkdir -p $HOME/.config/vim/after $HOME/.config/vim/autoload $HOME/.config/vim/pack/{hashivim,itchyny,junegunn,ojroques,preservim,ryanoasis,tpope}/{start,opt} > /dev/null 2>&1
+  mkdir -p $HOME/.config/vim/after $HOME/.config/vim/autoload $HOME/.config/vim/pack/{hashivim,itchyny,ojroques,preservim,ryanoasis,tpope}/{start,opt} > /dev/null 2>&1
   git clone --quiet https://github.com/hashivim/vim-terraform.git $HOME/.config/vim/pack/hashivim/start/vim-terraform > /dev/null 2>&1
   git clone --quiet https://github.com/itchyny/lightline.vim    $HOME/.config/vim/pack/itchyny/start/lightline > /dev/null 2>&1
-  git clone --quiet https://github.com/junegunn/fzf.git       $HOME/.config/vim/pack/junegunn/start/fzf > /dev/null 2>&1
-  git clone --quiet https://github.com/junegunn/fzf.vim.git     $HOME/.config/vim/pack/junegunn/start/fzf.vim > /dev/null 2>&1
   git clone --quiet https://github.com/ojroques/vim-oscyank.git   $HOME/.config/vim/pack/ojroques/start/vim-oscyank > /dev/null 2>&1
   git clone --quiet https://github.com/preservim/nerdtree.git   $HOME/.config/vim/pack/preservim/start/nerdtree > /dev/null 2>&1
   git clone --quiet https://github.com/ryanoasis/vim-devicons   $HOME/.config/vim/pack/ryanoasis/start/vim-devicons > /dev/null 2>&1
