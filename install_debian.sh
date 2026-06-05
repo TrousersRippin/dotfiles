@@ -73,7 +73,6 @@ install_bat() {
 
 install_duf() {
   sudo apt-get install -y -qq duf > /dev/null 2>&1
-  cp -R dotfiles/duf $HOME/.config
   whiptail --title "Install completed" --msgbox "Duf installed and configuration restored." 10 80
 }
 
