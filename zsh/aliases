@@ -1,9 +1,8 @@
 # General
 alias ..='cd ..'
+alias cat='batcat'
 alias cls='clear'
 alias duf='duf --hide-fs tmpfs,devtmpfs --output filesystem,size,used,avail,usage,mountpoint --sort usage --style ascii'
 alias ll='ls -aFhl'
 alias ls='ls --color=auto -h --group-directories-first'
-alias cat='batcat'
-alias flush='sudo killall -HUP mDNSResponder'
 alias svim='sudo vim'
