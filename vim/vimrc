@@ -14,11 +14,11 @@ set packpath+=$XDG_CONFIG_HOME/vim/after,$XDG_DATA_HOME/vim/after
 let g:netrw_home = $XDG_DATA_HOME."/vim"
 
 " Create directories
-call mkdir($XDG_DATA_HOME."/vim/spell", 'p')
-set backupdir=$XDG_STATE_HOME/vim/backup | call mkdir(&backupdir, 'p')
-set directory=$XDG_STATE_HOME/vim/swap   | call mkdir(&directory, 'p')
-set undodir=$XDG_STATE_HOME/vim/undo     | call mkdir(&undodir, 'p')
-set viewdir=$XDG_STATE_HOME/vim/view     | call mkdir(&viewdir, 'p')
+silent! call mkdir($XDG_DATA_HOME."/vim/spell", 'p')
+set backupdir=$XDG_STATE_HOME/vim/backup | silent! call mkdir(&backupdir, 'p')
+set directory=$XDG_STATE_HOME/vim/swap   | silent! call mkdir(&directory, 'p')
+set undodir=$XDG_STATE_HOME/vim/undo     | silent! call mkdir(&undodir, 'p')
+set viewdir=$XDG_STATE_HOME/vim/view     | silent! call mkdir(&viewdir, 'p')
 
 " Set viminfo file location
 set viminfofile=$XDG_STATE_HOME/vim/viminfo
@@ -30,7 +30,7 @@ set backup
 set backupcopy=yes
 
 " Appearance
-colorscheme nord
+silent! colorscheme nord
 set number
 set cursorline
 set laststatus=2
@@ -54,10 +54,9 @@ set softtabstop=4
 set tabstop=4
 
 " General settings
-set encoding=UTF-8
 set history=10000
 set timeoutlen=500
-set clipboard=unnamed,unnamedplus
+set clipboard=unnamedplus
 set mouse=a
 
 " Search settings
@@ -71,6 +70,9 @@ set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx,*.D
 filetype plugin indent on
 syntax on
 
+" Treat Nomad job files as HCL
+autocmd BufRead,BufNewFile *.nomad,*.nomad.hcl set filetype=hcl
+
 " Leader key
 let mapleader = " "
 
@@ -80,12 +82,12 @@ let NERDTreeShowHidden=1
 let NERDTreeQuitOnOpen=0
 
 " Key mappings
-map <leader>ee :NERDTreeToggle<CR>
-map <leader>ff :Files<CR>
-map <leader>fr :History<CR>
-map <leader>nn :set number!<CR>
-map <leader>ss :setlocal spell! spelllang=en_gb<CR>
-map <leader><space> :nohlsearch<CR>
+nnoremap <leader>ee :NERDTreeToggle<CR>
+nnoremap <leader>ff :Files<CR>
+nnoremap <leader>fr :History<CR>
+nnoremap <leader>nn :set number!<CR>
+nnoremap <leader>ss :setlocal spell! spelllang=en_gb<CR>
+nnoremap <leader><space> :nohlsearch<CR>
 nmap <leader>c <Plug>OSCYankOperator
 nmap <leader>cc <leader>c_
 vmap <leader>c <Plug>OSCYankVisual
