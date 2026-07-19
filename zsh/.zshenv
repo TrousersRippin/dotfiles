@@ -18,5 +18,9 @@ export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/ansible.cfg"
 # GPG
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 
+# Starship
+export STARSHIP_CACHE="$XDG_CACHE_HOME/starship"
+export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml"
+
 # ZSH
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
