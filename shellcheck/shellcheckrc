@@ -1,0 +1,23 @@
+# $XDG_CONFIG_HOME/shellcheckrc (usually ~/.config/shellcheckrc)
+# ShellCheck only reads this as a fallback if no .shellcheckrc/shellcheckrc
+# is found walking up from the script's directory, and no ~/.shellcheckrc
+# exists. Only the first file found is used — these don't merge.
+
+# Assume bash when a script has no shebang shellcheck can read
+shell=bash
+
+# Turn on optional style/info checks that are off by default.
+# Comment out any you find noisy instead of disabling globally below.
+enable=quote-safe-variables
+enable=require-variable-braces
+enable=avoid-nullary-conditions
+
+# Follow `source`/`.` into other files instead of skipping them
+external-sources=true
+
+# Checks disabled globally (rather than per-line with a directive comment)
+disable=SC2312   # "consider invocation separately" — noisy on every pipeline/if
+disable=SC2250   # require braces on all var refs — too aggressive with enable=require-variable-braces above
+
+# Minimum severity to report: error, warning, info, style
+severity=style
