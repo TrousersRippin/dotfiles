@@ -1,8 +1,43 @@
 # General
 alias ..='cd ..'
-alias cat='batcat'
+alias cat='bat'
+alias clean='find . -type f -name ".DS_Store" -delete'
 alias cls='clear'
 alias duf='duf --hide-fs tmpfs,devtmpfs --output filesystem,size,used,avail,usage,mountpoint --sort usage --style ascii'
+alias flush='sudo killall -HUP mDNSResponder'
 alias ll='ls -aFhl'
 alias ls='ls --color=auto -h --group-directories-first'
 alias svim='sudo vim'
+alias wgd='wg-quick down laptop'
+alias wgu='wg-quick up laptop'
+
+# Ansible
+alias server-install='ansible-playbook --ask-vault-password ~/Documents/Tech/Configuration/Ansible-Playbook/server/install/playbook.yaml -i ~/Documents/Tech/Configuration/Ansible-Playbook/server/install/inventory.yaml --ask-become-pass --key-file ~/.ssh/id_ed25519'
+alias server-update='ansible-playbook $HOME/Documents/Tech/Configuration/Ansible-Playbook/server/update/playbook.yaml -i $HOME/Documents/Tech/Configuration/Ansible-Playbook/server/update/inventory.yaml --key-file $HOME/.ssh/id_ed25519'
+
+# Provisioning
+alias autoinstall='python3 -m http.server 80 -d $HOME/Documents/Tech/Provisioning/Autoinstall'
+alias kickstart='python3 -m http.server 80 -d $HOME/Documents/Tech/Provisioning/Kickstart'
+alias preseed='python3 -m http.server 80 -d $HOME/Documents/Tech/Provisioning/Preseed'
+
+# Scripts
+alias restow='$XDG_DATA_HOME/scripts/restow.sh'
+
+# Tmux
+alias tmav='tmux attach -t vertical'
+alias tmah='tmux attach -t horizontal'
+alias tmd='tmux detach'
+alias tmk='tmux kill-server'
+alias tmnv='tmux new-session -s vertical \; split-window -h \; split-window -v \; attach'
+alias tmnh='tmux new-session -s horizontal \; split-window -v \; split-window -h \; attach'
+alias tml='tmux list-sessions'
+
+# VX Fiber
+alias eu1='source $HOME/Documents/VX/vx-mesh/scripts/eu1-with-helper.sh'
+alias neu='source $HOME/Documents/VX/vx-mesh/scripts/eu1-with-helper.sh; nomad ui -authenticate -address="https://nomad.eu1.vxfiber.dev" -tls-skip-verify'
+alias mgmt-eu='unset VAULT_TOKEN; source $HOME/Documents/VX/vx-vault/scripts/auth-admin-eu1.sh'
+alias af1='source $HOME/Documents/VX/vx-mesh/scripts/af1-with-helper.sh'
+alias naf='source $HOME/Documents/VX/vx-mesh/scripts/af1-with-helper.sh; nomad ui -authenticate -address="https://nomad.af1.vxfiber.dev" -tls-skip-verify'
+alias aws-console='vault-aws-console-access -role mgmt-aws-access -ttl=8h'
+alias mgmt-af='unset VAULT_TOKEN; source $HOME/Documents/VX/vx-vault/scripts/auth-admin-af1.sh'
+alias vault-token='$XDG_DATA_HOME/scripts/vault-token-helper-keychain.sh'
