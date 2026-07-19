@@ -105,7 +105,7 @@ install_starship() {
   sudo dnf install -y -q starship > /dev/null 2>&1
   cp -R dotfiles/starship "$HOME"/.config
   if grep -qi '^ID=\("fedora"\|fedora\)' /etc/os-release; then
-    sed -i -e 's/7A9A63/5E81AC/g' "$HOME/.config/starship.toml"
+    sed -i -e 's/7A9A63/5E81AC/g' "$HOME/.config/starship/starship.toml"
   fi
   whiptail --title "Install completed" --msgbox "Starship installed and configuration restored." 10 80
 }
