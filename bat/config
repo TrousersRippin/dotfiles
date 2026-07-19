@@ -7,11 +7,7 @@
 --italic-text=always
 
 --map-syntax="*.conf:INI"
---map-syntax="*.env:Bash"
---map-syntax="*.env.*:Bash"
 --map-syntax="*.jsonc:JSON"
 --map-syntax="Makefile.*:Makefile"
 --map-syntax=".ignore:GitIgnore"
 --map-syntax="*.log:syslog"
---map-syntax="vimrc:VimL"
---map-syntax=".vimrc:VimL"
