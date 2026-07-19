@@ -19,7 +19,6 @@ actcheckbox=black,blue
 red="\033[31m"
 green="\033[32m"
 yellow="\033[33m"
-blue="\033[34m"
 reset="\033[0m"
 
 echo -e "${yellow}[ INFO ]${reset} This script requires the following dependencies: Git and Whiptail."
@@ -49,10 +48,10 @@ function check_whiptail() {
 
 check_whiptail
 
-mkdir -p $HOME/.cache $HOME/.config $HOME/.local/share $HOME/.local/state
+mkdir -p "$HOME"/.cache "$HOME"/.config "$HOME"/.local/share "$HOME"/.local/state
 
 # Software menu
-CHOICES=( $(whiptail --separate-output --title "Linux software & dotfiles installer" --backtitle "<Tab> moves; <Space> select; <Enter> continue;" --checklist \
+mapfile -t CHOICES < <(whiptail --separate-output --title "Linux software & dotfiles installer" --backtitle "<Tab> moves; <Space> select; <Enter> continue;" --checklist \
   "Select packages to install" 0 80 10 \
   "bat" "text viewer" ON \
   "duf" "disk usage viewer" OFF \
@@ -63,11 +62,11 @@ CHOICES=( $(whiptail --separate-output --title "Linux software & dotfiles instal
   "starship" "terminal prompt" ON \
   "vim" "code editor" ON \
   "zsh" "modern shell" ON \
-  3>&1 1>&2 2>&3) )
+  3>&1 1>&2 2>&3)
 
 install_bat() {
   sudo dnf install -y -q bat > /dev/null 2>&1
-  cp -R dotfiles/bat $HOME/.config
+  cp -R dotfiles/bat "$HOME"/.config
   whiptail --title "Install completed" --msgbox "Bat installed and configuration restored." 10 80
 }
 
@@ -78,33 +77,33 @@ install_duf() {
 
 install_fastfetch() {
   sudo dnf install -y -q fastfetch > /dev/null 2>&1
-  cp -R dotfiles/fastfetch $HOME/.config
+  cp -R dotfiles/fastfetch "$HOME"/.config
   whiptail --title "Install completed" --msgbox "Fastfetch installed and configuration restored." 10 80
 }
 
 install_gnupg() {
   sudo dnf install -y -q gnupg > /dev/null 2>&1
-  cp -R dotfiles/gnupg $HOME/.local/share
+  cp -R dotfiles/gnupg "$HOME"/.local/share
   chmod 700 "$HOME/.local/share/gnupg"
   whiptail --title "Install completed" --msgbox "GnuPG installed and configuration restored." 10 80
 }
 
 install_htop() {
   sudo dnf install -y -q htop > /dev/null 2>&1
-  cp -R dotfiles/htop $HOME/.config
+  cp -R dotfiles/htop "$HOME"/.config
   whiptail --title "Install completed" --msgbox "Htop installed and configuration restored." 10 80
 }
 
 install_less() {
   sudo dnf install -y -q less > /dev/null 2>&1
-  cp dotfiles/less/lesskey $HOME/.config
+  cp dotfiles/less/lesskey "$HOME"/.config
   whiptail --title "Install completed" --msgbox "Less installed and configuration restored." 10 80
 }
 
 install_starship() {
   #curl -sS https://starship.rs/install.sh | sh
   sudo dnf install -y -q starship > /dev/null 2>&1
-  cp -R dotfiles/starship/starship.toml $HOME/.config
+  cp -R dotfiles/starship "$HOME"/.config
   if grep -qi '^ID=\("fedora"\|fedora\)' /etc/os-release; then
     sed -i -e 's/7A9A63/5E81AC/g' "$HOME/.config/starship.toml"
   fi
@@ -113,28 +112,28 @@ install_starship() {
 
 install_vim() {
   sudo dnf install -y -q vim > /dev/null 2>&1
-  cp -R dotfiles/vim $HOME/.config &&
-  mkdir -p $HOME/.config/vim/after $HOME/.config/vim/autoload $HOME/.config/vim/pack/{hashivim,itchyny,ojroques,preservim,ryanoasis,tpope}/{start,opt} > /dev/null 2>&1
-  git clone --quiet https://github.com/hashivim/vim-terraform.git $HOME/.config/vim/pack/hashivim/start/vim-terraform > /dev/null 2>&1
-  git clone --quiet https://github.com/itchyny/lightline.vim    $HOME/.config/vim/pack/itchyny/start/lightline > /dev/null 2>&1
-  git clone --quiet https://github.com/ojroques/vim-oscyank.git   $HOME/.config/vim/pack/ojroques/start/vim-oscyank > /dev/null 2>&1
-  git clone --quiet https://github.com/preservim/nerdtree.git   $HOME/.config/vim/pack/preservim/start/nerdtree > /dev/null 2>&1
-  git clone --quiet https://github.com/ryanoasis/vim-devicons   $HOME/.config/vim/pack/ryanoasis/start/vim-devicons > /dev/null 2>&1
-  git clone --quiet https://github.com/tpope/vim-sensible.git   $HOME/.config/vim/pack/tpope/start/vim-sensible > /dev/null 2>&1
+  cp -R dotfiles/vim "$HOME"/.config &&
+  mkdir -p "$HOME"/.config/vim/after "$HOME"/.config/vim/autoload "$HOME"/.config/vim/pack/{hashivim,itchyny,ojroques,preservim,ryanoasis,tpope}/{start,opt} > /dev/null 2>&1
+  git clone --quiet https://github.com/hashivim/vim-terraform.git "$HOME"/.config/vim/pack/hashivim/start/vim-terraform > /dev/null 2>&1
+  git clone --quiet https://github.com/itchyny/lightline.vim    "$HOME"/.config/vim/pack/itchyny/start/lightline > /dev/null 2>&1
+  git clone --quiet https://github.com/ojroques/vim-oscyank.git   "$HOME"/.config/vim/pack/ojroques/start/vim-oscyank > /dev/null 2>&1
+  git clone --quiet https://github.com/preservim/nerdtree.git   "$HOME"/.config/vim/pack/preservim/start/nerdtree > /dev/null 2>&1
+  git clone --quiet https://github.com/ryanoasis/vim-devicons   "$HOME"/.config/vim/pack/ryanoasis/start/vim-devicons > /dev/null 2>&1
+  git clone --quiet https://github.com/tpope/vim-sensible.git   "$HOME"/.config/vim/pack/tpope/start/vim-sensible > /dev/null 2>&1
   whiptail --title "Install completed" --msgbox "Vim installed and configuration restored." 10 80
 }
 
 install_zsh() {
-  mkdir -p $HOME/.cache/zsh $HOME/.local/state/zsh
+  mkdir -p "$HOME"/.cache/zsh "$HOME"/.local/state/zsh
   sudo dnf install -y -q zsh > /dev/null 2>&1
-  cp dotfiles/dir_colors/dir_colors $HOME/.config
-  cp -R dotfiles/zsh $HOME/.config
-  git clone --quiet https://github.com/zsh-users/zsh-autosuggestions.git    $HOME/.config/zsh/plugins/zsh-autosuggestions > /dev/null 2>&1
-  git clone --quiet https://github.com/zsh-users/zsh-completions.git      $HOME/.config/zsh/plugins/zsh-completions > /dev/null 2>&1
-  git clone --quiet https://github.com/zsh-users/zsh-syntax-highlighting.git  $HOME/.config/zsh/plugins/zsh-syntax-highlighting > /dev/null 2>&1
-  ln -s $HOME/.config/zsh/.zshenv $HOME/.zshenv
-  rm $HOME/.config/zsh/.zprofile
-  sudo chsh -s $(which zsh) $USER > /dev/null 2>&1
+  cp dotfiles/dir_colors/dir_colors "$HOME"/.config
+  cp -R dotfiles/zsh "$HOME"/.config
+  git clone --quiet https://github.com/zsh-users/zsh-autosuggestions.git    "$HOME"/.config/zsh/plugins/zsh-autosuggestions > /dev/null 2>&1
+  git clone --quiet https://github.com/zsh-users/zsh-completions.git      "$HOME"/.config/zsh/plugins/zsh-completions > /dev/null 2>&1
+  git clone --quiet https://github.com/zsh-users/zsh-syntax-highlighting.git  "$HOME"/.config/zsh/plugins/zsh-syntax-highlighting > /dev/null 2>&1
+  ln -s "$HOME"/.config/zsh/.zshenv "$HOME"/.zshenv
+  rm "$HOME"/.config/zsh/.zprofile
+  sudo chsh -s "$(which zsh)" "$USER" > /dev/null 2>&1
   whiptail --title "Install completed" --msgbox "ZSH installed and configuration restored." 10 80
 }
 
@@ -157,8 +156,8 @@ done
 # Post-Install
 function post_install() {
   if whiptail --title "Post Install" --yesno "Do you want to run user post install?" 10 80; then
-    rm $HOME/.bash_logout $HOME/.bash_profile $HOME/.bashrc $HOME/.profile> /dev/null 2>&1
-    touch $HOME/.hushlogin
+    rm "$HOME"/.bash_logout "$HOME"/.bash_profile "$HOME"/.bashrc "$HOME"/.profile > /dev/null 2>&1
+    touch "$HOME"/.hushlogin
     echo -e "${red}[ NOTICE ]${reset} Post install completed."
   else
     echo -e "${yellow}[ INFO ]${reset} Post install not completed."
