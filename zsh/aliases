@@ -31,13 +31,3 @@ alias tmk='tmux kill-server'
 alias tmnv='tmux new-session -s vertical \; split-window -h \; split-window -v \; attach'
 alias tmnh='tmux new-session -s horizontal \; split-window -v \; split-window -h \; attach'
 alias tml='tmux list-sessions'
-
-# VX Fiber
-alias eu1='source $HOME/Documents/VX/vx-mesh/scripts/eu1-with-helper.sh'
-alias neu='source $HOME/Documents/VX/vx-mesh/scripts/eu1-with-helper.sh; nomad ui -authenticate -address="https://nomad.eu1.vxfiber.dev" -tls-skip-verify'
-alias mgmt-eu='unset VAULT_TOKEN; source $HOME/Documents/VX/vx-vault/scripts/auth-admin-eu1.sh'
-alias af1='source $HOME/Documents/VX/vx-mesh/scripts/af1-with-helper.sh'
-alias naf='source $HOME/Documents/VX/vx-mesh/scripts/af1-with-helper.sh; nomad ui -authenticate -address="https://nomad.af1.vxfiber.dev" -tls-skip-verify'
-alias aws-console='vault-aws-console-access -role mgmt-aws-access -ttl=8h'
-alias mgmt-af='unset VAULT_TOKEN; source $HOME/Documents/VX/vx-vault/scripts/auth-admin-af1.sh'
-alias vault-token='$XDG_DATA_HOME/scripts/vault-token-helper-keychain.sh'

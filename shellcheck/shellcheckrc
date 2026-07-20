@@ -1,8 +1,3 @@
-# $XDG_CONFIG_HOME/shellcheckrc (usually ~/.config/shellcheckrc)
-# ShellCheck only reads this as a fallback if no .shellcheckrc/shellcheckrc
-# is found walking up from the script's directory, and no ~/.shellcheckrc
-# exists. Only the first file found is used — these don't merge.
-
 # Assume bash when a script has no shebang shellcheck can read
 shell=bash
 
