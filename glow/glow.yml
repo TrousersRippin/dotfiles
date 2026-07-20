@@ -1,0 +1,15 @@
+# Path to a built-in style name (auto, dark, light, dracula, notty, pink,
+# tokyo-night, ascii) or a path to a custom JSON style, like below.
+style: "/Users/troy/.config/glow/nord.json"
+
+# Use a pager (like less) when rendering long files
+pager: true
+
+# Enable mouse wheel scrolling in the TUI file browser
+mouse: true
+
+# Wrap text at this width; 0 disables wrapping
+width: 100
+
+# Show line numbers in code blocks
+showLineNumbers: true
