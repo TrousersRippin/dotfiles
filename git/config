@@ -34,7 +34,7 @@
 
 [status]
   branch = true
-  short = true
+  short = false
   showStash = true
   showUntrackedFiles = all
   verbose = true
