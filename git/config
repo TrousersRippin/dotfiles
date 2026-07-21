@@ -1,5 +1,6 @@
 [advice]
   addEmptyPathspec = false
+  mergeConflict = false
   pushNonFastForward = false
   statusHints = false
 
@@ -9,10 +10,10 @@
   ui = auto
 
 [color "diff"]
-  meta = yellow bold
   frag = magenta bold
-  old = red bold
+  meta = yellow bold
   new = green bold
+  old = red bold
 
 [commit]
   template = ~/.config/git/message
@@ -30,15 +31,16 @@
   rebase = true
 
 [push]
+  autoSetupRemote = true
   default = simple
 
 [status]
+  aheadBehind = true
   branch = true
   short = false
   showStash = true
   showUntrackedFiles = all
   verbose = true
-  aheadBehind = true
 
 [user]
   name = Troy Rippin
