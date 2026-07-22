@@ -1,6 +1,6 @@
 # General
 alias ..='cd ..'
-alias cat='bat'
+alias cat='batcat'
 alias clean='find . -type f -name ".DS_Store" -delete'
 alias cls='clear'
 alias duf='duf --hide-fs tmpfs,devtmpfs --output filesystem,size,used,avail,usage,mountpoint --sort usage --style ascii'
@@ -8,26 +8,3 @@ alias flush='sudo killall -HUP mDNSResponder'
 alias ll='ls -aFhl'
 alias ls='ls --color=auto -h --group-directories-first'
 alias svim='sudo vim'
-alias wgd='wg-quick down laptop'
-alias wgu='wg-quick up laptop'
-
-# Ansible
-alias server-install='ansible-playbook --ask-vault-password ~/Documents/Tech/Configuration/Ansible-Playbook/server/install/playbook.yaml -i ~/Documents/Tech/Configuration/Ansible-Playbook/server/install/inventory.yaml --ask-become-pass --key-file ~/.ssh/id_ed25519'
-alias server-update='ansible-playbook $HOME/Documents/Tech/Configuration/Ansible-Playbook/server/update/playbook.yaml -i $HOME/Documents/Tech/Configuration/Ansible-Playbook/server/update/inventory.yaml --key-file $HOME/.ssh/id_ed25519'
-
-# Provisioning
-alias autoinstall='python3 -m http.server 80 -d $HOME/Documents/Tech/Provisioning/Autoinstall'
-alias kickstart='python3 -m http.server 80 -d $HOME/Documents/Tech/Provisioning/Kickstart'
-alias preseed='python3 -m http.server 80 -d $HOME/Documents/Tech/Provisioning/Preseed'
-
-# Scripts
-alias restow='$XDG_DATA_HOME/scripts/restow.sh'
-
-# Tmux
-alias tmav='tmux attach -t vertical'
-alias tmah='tmux attach -t horizontal'
-alias tmd='tmux detach'
-alias tmk='tmux kill-server'
-alias tmnv='tmux new-session -s vertical \; split-window -h \; split-window -v \; attach'
-alias tmnh='tmux new-session -s horizontal \; split-window -v \; split-window -h \; attach'
-alias tml='tmux list-sessions'
