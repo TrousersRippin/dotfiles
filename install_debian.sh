@@ -78,6 +78,11 @@ install_duf() {
 install_fastfetch() {
   sudo apt-get install -y -qq fastfetch > /dev/null 2>&1
   cp -R dotfiles/fastfetch "$HOME"/.config
+  if grep -qi "ubuntu" /etc/os-release; then
+    sed -i -e 's/5E81AC/D08770/g' "$HOME"/.config/fastfetch/config.jsonc
+  else
+    sed -i -e 's/5E81AC/BF616A/g' "$HOME"/.config/fastfetch/config.jsonc
+  fi
   whiptail --title "Install completed" --msgbox "Fastfetch installed and configuration restored." 10 80
 }
 
