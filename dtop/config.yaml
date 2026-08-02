@@ -1,7 +1,9 @@
+---
 hosts:
   - host: ssh://troy@10.1.1.11
 
-# Possible values: unicode, nerd (requires a Nerd Font installed)
 icons: nerd
+
 all: true
+
 sort: name
