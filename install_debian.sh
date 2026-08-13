@@ -19,6 +19,7 @@ actcheckbox=black,green
 red="\033[31m"
 green="\033[32m"
 yellow="\033[33m"
+blue="\033[34m"
 reset="\033[0m"
 
 echo -e "${yellow}[ INFO ]${reset} This script requires the following dependencies: Git and Whiptail."
