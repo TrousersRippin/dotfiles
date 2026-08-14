@@ -68,7 +68,8 @@
         },
         {
             "type": "cpu",
-            "key": "║{##5E81AC}│ {icon}  CPU       │{$4}│{#keys}║{$2}"
+            "key": "║{##5E81AC}│ {icon}  CPU       │{$4}│{#keys}║{$2}",
+            "format": "{name} ({cores-physical})"
         },
         {
             "type": "gpu",
