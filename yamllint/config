@@ -8,7 +8,7 @@ yaml-files:
 
 rules:
   line-length:
-    max: 150
+    max: 170
     level: warning
     allow-non-breakable-words: true
 
