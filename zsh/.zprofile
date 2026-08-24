@@ -20,9 +20,12 @@ manpath=(
 )
 
 # Homebrew
+export HOMEBREW_AUTO_UPDATE_QUIET=TRUE
 export HOMEBREW_CACHE="$XDG_CACHE_HOME/homebrew"
+export HOMEBREW_CLEANUP_MAX_AGE_DAYS=0
 export HOMEBREW_LOGS="$XDG_STATE_HOME/homebrew/logs"
-export HOMEBREW_TEMP="/tmp/homebrew"
 export HOMEBREW_NO_ENV_HINTS=TRUE
+export HOMEBREW_NO_UPDATE_REPORT_NEW=1
+export HOMEBREW_TEMP="/tmp/homebrew"
 
 export SHELL_SESSIONS_DISABLE=1
