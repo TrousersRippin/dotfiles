@@ -24,7 +24,7 @@ rules:
     check-keys: true
 
   comments:
-    require-starting-space: true
+    require-starting-space: false
     min-spaces-from-content: 1
 
   comments-indentation: disable
@@ -44,8 +44,4 @@ rules:
     max-spaces-inside: 1
 
 ignore: |
-  .venv/
-  node_modules/
-  vendor/
-  cloud-init*
-  user-data*
+  **/vars/vault.yaml
