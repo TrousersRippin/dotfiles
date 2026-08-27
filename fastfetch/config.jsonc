@@ -101,6 +101,7 @@
         },
         {
             "type": "localip",
+            "defaultRouteOnly": false,
             "key": "║{##5E81AC}│ {icon}  Local IP  │{$4}│{#keys}║{$2}"
         },
         {
