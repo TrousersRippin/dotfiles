@@ -1,9 +1,8 @@
 ---
 hosts:
   - host: ssh://troy@10.1.1.11
+  #- host: ssh://troy@10.1.2.14
 
 icons: nerd
-
 all: true
-
 sort: name
