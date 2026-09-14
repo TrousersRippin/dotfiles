@@ -7,6 +7,7 @@ yaml-files:
   - '.yamllint'
 
 rules:
+  document-start: disable
   line-length:
     max: 170
     level: warning
@@ -15,9 +16,6 @@ rules:
   indentation:
     spaces: 2
     indent-sequences: consistent
-
-  document-start:
-    present: true
 
   truthy:
     allowed-values: ['true', 'false']
