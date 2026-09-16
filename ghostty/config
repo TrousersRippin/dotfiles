@@ -29,6 +29,7 @@ shell-integration-features = cursor, sudo, title
 split-inherit-working-directory = true
 tab-inherit-working-directory = false
 theme = nord
+title = " "
 window-decoration = auto
 window-height = 40
 window-inherit-working-directory = false
