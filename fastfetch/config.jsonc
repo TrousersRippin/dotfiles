@@ -73,7 +73,8 @@
         },
         {
             "type": "gpu",
-            "key": "║{##5E81AC}│ {icon}  GPU       │{$4}│{#keys}║{$2}"
+            "key": "║{##5E81AC}│ {icon}  GPU       │{$4}│{#keys}║{$2}",
+            "format": "{vendor} {name} @ {frequency}"
         },
         {
             "type": "memory",
