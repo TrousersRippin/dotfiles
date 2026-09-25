@@ -1,6 +1,6 @@
 # General
 alias ..='cd ..'
-alias cat='batcat'
+alias cat='bat'
 alias clean='find . -type f -name ".DS_Store" -delete'
 alias cls='clear'
 alias duf='duf --hide-fs tmpfs,devtmpfs --output filesystem,size,used,avail,usage,mountpoint --sort usage --style ascii'
