@@ -23,5 +23,8 @@ export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 export STARSHIP_CACHE="$XDG_CACHE_HOME/starship"
 export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml"
 
+# Wget
+export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
+
 # ZSH
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
