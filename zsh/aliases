@@ -1,11 +1,14 @@
 # General
 alias ..='cd ..'
-alias cat='bat'
+if command -v bat >/dev/null 2>&1; then
+  alias cat='bat'
+elif command -v batcat >/dev/null 2>&1; then
+  alias cat='batcat'
+fi
 alias clean='find . -type f -name ".DS_Store" -delete'
 alias cls='clear'
 alias duf='duf --hide-fs tmpfs,devtmpfs --output filesystem,size,used,avail,usage,mountpoint --sort usage --style ascii'
 alias flush='sudo killall -HUP mDNSResponder'
 alias ll='ls -aFhl'
 alias ls='ls --color=auto -h --group-directories-first'
-alias scat='sudo bat'
 alias svim='sudo vim'
