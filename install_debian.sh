@@ -57,6 +57,7 @@ mapfile -t CHOICES < <(whiptail --separate-output --title "Linux software & dotf
   "bat" "text viewer" ON \
   "duf" "disk usage viewer" ON \
   "fastfetch" "system information" ON \
+  "fuzzy finder" "interactive filter" ON \
   "gnupg" "encryption software" OFF \
   "htop" "system monitor" ON \
   "less" "terminal pager" ON \
@@ -85,6 +86,11 @@ install_fastfetch() {
     sed -i -e 's/5E81AC/BF616A/g' "$HOME"/.config/fastfetch/config.jsonc
   fi
   whiptail --title "Install completed" --msgbox "Fastfetch installed and configuration restored." 10 80
+}
+
+install_fzf() {
+  sudo apt-get install -y -qq fzf > /dev/null 2>&1
+  whiptail --title "Install completed" --msgbox "fzf installed." 10 80
 }
 
 install_gnupg() {
@@ -149,6 +155,7 @@ for choice in "${CHOICES[@]}"; do
     bat)        install_bat ;;
     duf)        install_duf ;;
     fastfetch)  install_fastfetch ;;
+    fzf)        install_fzf ;;
     git)        install_git ;;
     gnupg)      install_gnupg ;;
     htop)       install_htop ;;
