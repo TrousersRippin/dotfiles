@@ -90,7 +90,7 @@ install_fastfetch() {
 
 install_fzf() {
   sudo apt-get install -y -qq fzf > /dev/null 2>&1
-  whiptail --title "Install completed" --msgbox "fzf installed." 10 80
+  whiptail --title "Install completed" --msgbox "Fzf installed." 10 80
 }
 
 install_gnupg() {
