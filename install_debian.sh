@@ -57,7 +57,7 @@ mapfile -t CHOICES < <(whiptail --separate-output --title "Linux software & dotf
   "bat" "text viewer" ON \
   "duf" "disk usage viewer" ON \
   "fastfetch" "system information" ON \
-  "fuzzy finder" "interactive filter" ON \
+  "fzf" "interactive filter" ON \
   "gnupg" "encryption software" OFF \
   "htop" "system monitor" ON \
   "less" "terminal pager" ON \
