@@ -2,18 +2,18 @@
 
 # Set colours for Whiptail
 export NEWT_COLORS='root=,black
-border=red,black
+border=brown,black
 title=red,black
-roottext=red,black
+roottext=brown,black
 window=red,black
 textbox=white,black
-button=black,red
+button=black,brown
 compactbutton=white,black
 listbox=white,black
 actlistbox=black,white
-actsellistbox=black,red
-checkbox=red,black
-actcheckbox=black,red
+actsellistbox=black,brown
+checkbox=brown,black
+actcheckbox=black,brown
 '
 
 red="\033[31m"
