@@ -2,18 +2,18 @@
 
 # Set colours for Whiptail
 export NEWT_COLORS='root=,black
-border=yellow,black
+border=green,black
 title=red,black
-roottext=yellow,black
+roottext=green,black
 window=red,black
 textbox=white,black
-button=black,yellow
+button=black,green
 compactbutton=white,black
 listbox=white,black
 actlistbox=black,white
-actsellistbox=black,yellow
-checkbox=yellow,black
-actcheckbox=black,yellow
+actsellistbox=black,green
+checkbox=green,black
+actcheckbox=black,green
 '
 
 red="\033[31m"
@@ -86,7 +86,7 @@ mkdir -p "$HOME"/.cache "$HOME"/.config "$HOME"/.local/share "$HOME"/.local/stat
 mapfile -t CHOICES < <(whiptail --separate-output --title "Linux software & dotfiles installer" --backtitle "<Tab> moves; <Space> select; <Enter> continue;" --checklist \
   "Select packages to install" 0 80 10 \
   "bat" "text viewer" ON \
-  "duf" "disk usage viewer" OFF \
+  "duf" "disk usage viewer" ON \
   "fastfetch" "system information" ON \
   "fzf" "interactive filter" ON \
   "gnupg" "encryption software" OFF \
@@ -203,7 +203,7 @@ done
 # Post-Install
 function post_install() {
   if whiptail --title "Post Install" --yesno "Do you want to run user post install?" 10 80; then
-    rm "$HOME"/.bash_logout "$HOME"/.bash_profile "$HOME"/.bashrc "$HOME"/.profile > /dev/null 2>&1
+    rm "$HOME"/.bash_history "$HOME"/.bash_logout "$HOME"/.bash_profile "$HOME"/.bashrc "$HOME"/.emacs "$HOME"/.inputrc "$HOME"/.profile > /dev/null 2>&1
     touch "$HOME"/.hushlogin
     echo -e "${red}[ NOTICE ]${reset} Post install completed."
   else

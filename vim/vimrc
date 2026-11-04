@@ -56,8 +56,11 @@ set tabstop=4
 " General settings
 set history=10000
 set timeoutlen=500
-set clipboard=unnamedplus
 set mouse=a
+
+if has('clipboard') && (!empty($DISPLAY) || !empty($WAYLAND_DISPLAY))
+  set clipboard=unnamedplus
+endif
 
 " Search settings
 set ignorecase smartcase
