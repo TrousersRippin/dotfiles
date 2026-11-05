@@ -2,7 +2,7 @@
     "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
     "display": {
         "color": {
-            "keys": "#5E81AC"                                // nord10 blue: outer frame + system block
+            "keys": "#A3BE8C"                                // nord14 green: outer frame + system block
         },
         "separator": "",
         "constants": [
@@ -30,10 +30,6 @@
             "key": "║  {icon}  Kernel    ║{$3}║{$2}"
         },
         {
-            "type": "uptime",
-            "key": "║  {icon}  Uptime    ║{$3}║{$2}"
-        },
-        {
             "type": "packages",
             "key": "║  {icon}  Packages  ║{$3}║{$2}"
         },
@@ -42,79 +38,104 @@
             "key": "║  {icon}  Locale    ║{$3}║{$2}"
         },
 
-        // Terminal section: nord14 green
+        // Terminal section: nord13 yellow
         {
             "type": "custom",
-            "key": "║{##A3BE8C}┌──────────────┬{$1}┐{#keys}║\u001b[37D",
-            "format": "{##A3BE8C} Terminal "
+            "key": "║{##EBCB8B}┌──────────────┬{$1}┐{#keys}║\u001b[37D",
+            "format": "{##EBCB8B} Terminal "
         },
         {
             "type": "shell",
-            "key": "║{##A3BE8C}│ {icon}  Shell     │{$4}│{#keys}║{$2}"
+            "key": "║{##EBCB8B}│ {icon}  Shell     │{$4}│{#keys}║{$2}"
         },
         {
             "type": "terminal",
-            "key": "║{##A3BE8C}│ {icon}  Terminal  │{$4}│{#keys}║{$2}"
+            "key": "║{##EBCB8B}│ {icon}  Terminal  │{$4}│{#keys}║{$2}"
+        },
+        {
+            "type": "terminalfont",
+            "key": "║{##EBCB8B}│ {icon}  Font      │{$4}│{#keys}║{$2}"
         },
         {
             "type": "custom",
-            "key": "║{##A3BE8C}└──────────────┴{$1}┘{#keys}║",
+            "key": "║{##EBCB8B}└──────────────┴{$1}┘{#keys}║",
             "format": ""
         },
 
-        // Hardware section: nord12 orange
+        // Hardware section: nord11 red
         {
             "type": "custom",
-            "key": "║{##D08770}┌──────────────┬{$1}┐{#keys}║\u001b[37D",
-            "format": "{##D08770} Hardware "
+            "key": "║{##BF616A}┌──────────────┬{$1}┐{#keys}║\u001b[37D",
+            "format": "{##BF616A} Hardware "
         },
         {
             "type": "cpu",
-            "key": "║{##D08770}│ {icon}  CPU       │{$4}│{#keys}║{$2}",
+            "key": "║{##BF616A}│ {icon}  CPU       │{$4}│{#keys}║{$2}",
             "format": "{name} ({cores-physical})"
         },
         {
             "type": "gpu",
-            "key": "║{##D08770}│ {icon}  GPU       │{$4}│{#keys}║{$2}",
+            "key": "║{##BF616A}│ {icon}  GPU       │{$4}│{#keys}║{$2}",
             "format": "{vendor} {name} @ {frequency}"
         },
         {
             "type": "memory",
-            "key": "║{##D08770}│ {icon}  RAM       │{$4}│{#keys}║{$2}"
+            "key": "║{##BF616A}│ {icon}  RAM       │{$4}│{#keys}║{$2}"
         },
         {
             "type": "swap",
-            "key": "║{##D08770}│ {icon}  SWAP      │{$4}│{#keys}║{$2}"
+            "key": "║{##BF616A}│ {icon}  SWAP      │{$4}│{#keys}║{$2}"
         },
         {
             "type": "disk",
-            "key": "║{##D08770}│ {icon}  Disk      │{$4}│{#keys}║{$2}",
+            "key": "║{##BF616A}│ {icon}  Disk      │{$4}│{#keys}║{$2}",
             "format": "{size-used} \/ {size-total} ({size-percentage}) - {filesystem}"
         },
         {
             "type": "custom",
-            "key": "║{##D08770}└──────────────┴{$1}┘{#keys}║",
+            "key": "║{##BF616A}└──────────────┴{$1}┘{#keys}║",
             "format": ""
         },
 
-        // Network section: nord11 red
+        // Network section: nord15 magenta
         {
             "type": "custom",
-            "key": "║{##BF616A}┌──────────────┬{$1}┐{#keys}║\u001b[37D",
-            "format": "{##BF616A} Network "
+            "key": "║{##B48EAD}┌──────────────┬{$1}┐{#keys}║\u001b[37D",
+            "format": "{##B48EAD} Network "
         },
         {
             "type": "localip",
             "defaultRouteOnly": false,
-            "key": "║{##BF616A}│ {icon}  Local IP  │{$4}│{#keys}║{$2}"
+            "key": "║{##B48EAD}│ {icon}  Local IP  │{$4}│{#keys}║{$2}"
         },
         {
             "type": "publicip",
-            "key": "║{##BF616A}│ {icon}  Public IP │{$4}│{#keys}║{$2}"
+            "key": "║{##B48EAD}│ {icon}  Public IP │{$4}│{#keys}║{$2}"
+        },
+        {
+            "type": "dns",
+            "showType": "ipv4",
+            "key": "║{##B48EAD}│ {icon}  DNS       │{$4}│{#keys}║{$2}"
         },
         {
             "type": "custom",
-            "key": "║{##BF616A}└──────────────┴{$1}┘{#keys}║",
+            "key": "║{##B48EAD}└──────────────┴{$1}┘{#keys}║",
+            "format": ""
+        },
+
+        // Uptime section: nord10 blue
+        {
+            "type": "custom",
+            "key": "║{##5E81AC}┌──────────────┬{$1}┐{#keys}║\u001b[37D",
+            "format": "{##5E81AC} Uptime "
+        },
+        {
+            "type": "uptime",
+            "key": "║{##5E81AC}│ {icon}  Uptime    │{$4}│{#keys}║{$2}"
+        },
+        {
+            "type": "custom",
+            "key": "║{##5E81AC}└──────────────┴{$1}┘{#keys}║",
             "format": ""
         },
 
