@@ -22,7 +22,3 @@ RHEL/CentOS/Fedora
 ```bash
 ./dotfiles/install_rhel.sh
 ```
-openSUSE
-```bash
-./dotfiles/install_opensuse.sh
-```
