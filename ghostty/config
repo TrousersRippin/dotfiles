@@ -8,9 +8,9 @@ copy-on-select = true
 cursor-style = block
 cursor-style-blink = true
 focus-follows-mouse = true
-font-family = JetBrains Mono Medium
+font-family = JetBrains Mono regular
 font-family-bold = JetBrains Mono Bold
-font-size = 13
+font-size = 14
 font-thicken = true
 keybind = alt+three=text:#
 keybind = alt+f=text:\x1bf
