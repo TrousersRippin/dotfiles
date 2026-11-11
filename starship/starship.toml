@@ -29,7 +29,7 @@ command_timeout = 5000
 # add_newline = false
 
 # Colour gradient, chosen per OS by the install scripts:
-# blue = macOS / Fedora, green = macOS / RHEL, orange = Ubuntu, red = Debian
+# blue = Fedora, green = macOS, orange = Ubuntu, red = Debian
 palette = "green"
 
 [palettes.blue]
