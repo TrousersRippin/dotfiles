@@ -1,8 +1,5 @@
-# Keep only the first occurrence of each entry
 typeset -U path fpath manpath
 
-# Prepended here because macOS /etc/zprofile (path_helper) reorders PATH
-# after .zshenv runs, pushing user entries behind the system dirs.
 path=(
   $HOME/.local/bin
   /opt/homebrew/bin
@@ -10,7 +7,6 @@ path=(
   /opt/homebrew/opt/coreutils/libexec/gnubin
   /opt/homebrew/opt/curl/bin
   /opt/homebrew/opt/findutils/libexec/gnubin
-  /opt/homebrew/opt/gawk/libexec/gnubin
   /opt/homebrew/opt/gnu-sed/libexec/gnubin
   /opt/homebrew/opt/gnu-tar/libexec/gnubin
   /opt/homebrew/opt/gnu-which/libexec/gnubin
@@ -18,7 +14,7 @@ path=(
   /opt/homebrew/opt/libpq/bin
   $path
 )
-# Drop entries that don't exist on this machine (e.g. gawk, or Linux installs)
+
 path=($^path(N-/))
 
 manpath=(
@@ -27,7 +23,6 @@ manpath=(
   $manpath
 )
 manpath=($^manpath(N-/))
-# Trailing ":" tells man to also search its default system locations
 export MANPATH="${(j.:.)manpath}:"
 
 # Homebrew

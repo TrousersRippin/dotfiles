@@ -10,6 +10,11 @@ set runtimepath+=$XDG_CONFIG_HOME/vim/after
 set packpath^=$XDG_DATA_HOME/vim,$XDG_CONFIG_HOME/vim
 set packpath+=$XDG_CONFIG_HOME/vim/after,$XDG_DATA_HOME/vim/after
 
+" fzf base plugin from Homebrew (needed by fzf.vim)
+if isdirectory('/opt/homebrew/opt/fzf')
+  set runtimepath+=/opt/homebrew/opt/fzf
+endif
+
 " Configure netrw home directory
 let g:netrw_home = $XDG_DATA_HOME."/vim"
 
@@ -56,10 +61,22 @@ set tabstop=4
 " General settings
 set history=10000
 set timeoutlen=500
+set ttimeout ttimeoutlen=100   " Don't wait after Esc
 set mouse=a
+set autoread                   " Reload files changed outside Vim
+set display=lastline           " Show as much of a long last line as fits
+set nrformats-=octal           " Ctrl-A/Ctrl-X treat 007 as decimal
+set formatoptions+=j           " Remove comment leaders when joining lines
+packadd! matchit               " Extend % to if/endif, HTML tags, etc.
 
-if has('clipboard') && (!empty($DISPLAY) || !empty($WAYLAND_DISPLAY))
-  set clipboard=unnamedplus
+" Use the system clipboard for yank/delete/put locally; over SSH use
+" OSCYank (<leader>c) instead, as the remote clipboard isn't the local one
+if has('clipboard') && empty($SSH_CONNECTION)
+  if has('mac')
+    set clipboard=unnamed
+  elseif !empty($DISPLAY) || !empty($WAYLAND_DISPLAY)
+    set clipboard=unnamedplus
+  endif
 endif
 
 " Search settings
@@ -79,13 +96,7 @@ autocmd BufRead,BufNewFile *.nomad,*.nomad.hcl set filetype=hcl
 " Leader key
 let mapleader = " "
 
-" NERDTree configuration
-let NERDTreeRespectWildIgnore=1
-let NERDTreeShowHidden=1
-let NERDTreeQuitOnOpen=0
-
 " Key mappings
-nnoremap <leader>ee :NERDTreeToggle<CR>
 nnoremap <leader>ff :Files<CR>
 nnoremap <leader>fr :History<CR>
 nnoremap <leader>nn :set number!<CR>

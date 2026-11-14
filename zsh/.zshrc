@@ -91,4 +91,4 @@ compinit -d "$XDG_CACHE_HOME/zsh/zcompdump"
 source "$ZDOTDIR/aliases.zsh"
 source "$ZDOTDIR/fzf.zsh"
 source "$ZDOTDIR/prompt.zsh"
-source "$ZDOTDIR/plugins.zsh"   # last: syntax highlighting wants to load at the end
+source "$ZDOTDIR/plugins.zsh"
