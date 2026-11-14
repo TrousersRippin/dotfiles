@@ -28,3 +28,5 @@ export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
 
 # ZSH
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+
+skip_global_compinit=1
