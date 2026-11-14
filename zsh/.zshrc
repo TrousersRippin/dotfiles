@@ -1,4 +1,5 @@
-test -r "$XDG_CONFIG_HOME/dir_colors" && eval "$(dircolors "$XDG_CONFIG_HOME/dir_colors")"
+# --- Colors -----------------------------------------------------------------
+test -r "$XDG_CONFIG_HOME/dir_colors" && eval "$(dircolors -b "$XDG_CONFIG_HOME/dir_colors")"
 
 if [[ "$TERM" == "linux" ]]; then
   echo -en "\e]P0000000" # black
@@ -11,7 +12,9 @@ if [[ "$TERM" == "linux" ]]; then
   echo -en "\e]PFE5E9F0" # white
 fi
 
+# --- Keybindings ------------------------------------------------------------
 bindkey -v
+KEYTIMEOUT=1   # 10ms Esc delay in vi mode (default 40 = 0.4s)
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
 bindkey '^F' forward-char
@@ -22,11 +25,12 @@ bindkey '^U' backward-kill-line
 bindkey '^[f' forward-word
 bindkey '^[b' backward-word
 
+# --- Options ----------------------------------------------------------------
 autoload -U zmv
 alias zmv='noglob zmv -W'
 
 setopt auto_cd auto_pushd
-setopt auto_list auto_menu menu_complete
+setopt auto_list auto_menu
 setopt complete_in_word
 setopt correct
 setopt extended_glob
@@ -37,13 +41,26 @@ setopt notify
 setopt no_beep
 setopt no_case_glob
 
+# --- History ----------------------------------------------------------------
 HISTSIZE=200
 SAVEHIST="$HISTSIZE"
 HISTFILE="${XDG_STATE_HOME}/zsh/history"
-setopt append_history inc_append_history
-setopt hist_expire_dups_first hist_find_no_dups hist_ignore_dups
-setopt hist_ignore_all_dups hist_ignore_space
+setopt inc_append_history
+setopt hist_find_no_dups hist_ignore_all_dups hist_ignore_space
 setopt hist_reduce_blanks hist_save_no_dups hist_verify
+
+# --- Completion -------------------------------------------------------------
+# zsh-completions must be on fpath before compinit runs
+# /bin/zsh doesn't include Homebrew's completions dir; (N-/) skips it if absent (Linux)
+fpath=(
+  "$XDG_CONFIG_HOME/zsh/plugins/zsh-completions/src"
+  /opt/homebrew/share/zsh/site-functions(N-/)
+  $fpath
+)
+
+# Prefer zsh's built-in _git over Homebrew's bash-based wrapper
+# (system dirs come last in fpath, so [-1] picks zsh's own copy)
+autoload -Uz $^fpath/_git(N[-1])
 
 autoload -Uz compinit
 
@@ -64,32 +81,14 @@ zstyle ':completion:*:default' list-prompt '%S%M matches%s'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
+zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/zcompcache"
 zstyle ':completion:*' rehash true
 
 compinit -d "$XDG_CACHE_HOME/zsh/zcompdump"
 
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-export FZF_DEFAULT_OPTS='--height 40% --layout reverse --border
-  --color=fg:#D8DEE9,bg:-1,hl:#88C0D0
-  --color=fg+:#ECEFF4,bg+:#3B4252,hl+:#8FBCBB,gutter:-1
-  --color=info:#EBCB8B,prompt:#81A1C1,pointer:#BF616A,marker:#A3BE8C
-  --color=spinner:#B48EAD,header:#5E81AC,border:#4C566A,query:#ECEFF4'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS="--preview 'bat --color=always --theme=Nord --style=numbers --line-range=:200 {}'"
-export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
-export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
-_fzf_compgen_path() { fd --hidden --follow --exclude .git . "$1" }
-_fzf_compgen_dir() { fd --type d --hidden --follow --exclude .git . "$1" }
-
-source "$ZDOTDIR/aliases"
-source <(fzf --zsh)
-source "$XDG_CONFIG_HOME/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
-source "$XDG_CONFIG_HOME/zsh/plugins/zsh-completions/zsh-completions.plugin.zsh"
-source "$XDG_CONFIG_HOME/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-
-if [[ "$TERM" == "linux" ]] || [[ "$TERM_PROGRAM" == "Apple_Terminal" ]]; then
-    source $ZDOTDIR/.zshrc-console
-else
-    eval "$(starship init zsh)"
-fi
+# --- Modules ----------------------------------------------------------------
+source "$ZDOTDIR/aliases.zsh"
+source "$ZDOTDIR/fzf.zsh"
+source "$ZDOTDIR/prompt.zsh"
+source "$ZDOTDIR/plugins.zsh"   # last: syntax highlighting wants to load at the end

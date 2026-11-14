@@ -12,3 +12,9 @@ alias flush='sudo killall -HUP mDNSResponder'
 alias ll='ls -aFhl'
 alias ls='ls --color=auto -h --group-directories-first'
 alias svim='sudo vim'
+
+# Scripts
+alias restow='$XDG_DATA_HOME/scripts/restow.sh'
+alias tech-docs='$XDG_DATA_HOME/scripts/tech_docs.sh'
+alias homelab_backup='$XDG_DATA_HOME/scripts/homelab_backup.sh'
+alias plex_backup='$XDG_DATA_HOME/scripts/plex_backup.sh'
