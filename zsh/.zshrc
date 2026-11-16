@@ -96,7 +96,14 @@ zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/zcompcache"
 zstyle ':completion:*' rehash true
 
-compinit -d "$XDG_CACHE_HOME/zsh/zcompdump"
+# Under `sudo -s` root inherits this config, and compaudit flags fpath dirs owned
+# by the real user as insecure. -i skips them silently; a separate dump file keeps
+# root from leaving a root-owned zcompdump that the normal user can't rewrite.
+if (( EUID == 0 )); then
+  compinit -i -d "$XDG_CACHE_HOME/zsh/zcompdump-root"
+else
+  compinit -d "$XDG_CACHE_HOME/zsh/zcompdump"
+fi
 
 # --- Modules ----------------------------------------------------------------
 source "$ZDOTDIR/aliases.zsh"
