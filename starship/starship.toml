@@ -1,0 +1,162 @@
+format = """
+[](#3B4252)\
+$python\
+$username\
+[](bg:#434C5E fg:#3B4252)\
+$directory\
+[](fg:#434C5E bg:seg1)\
+$git_branch\
+$git_status\
+[](fg:seg1 bg:seg2)\
+$c\
+$elixir\
+$elm\
+$golang\
+$haskell\
+$java\
+$julia\
+$nodejs\
+$nim\
+$rust\
+[](fg:seg2 bg:seg3)\
+$docker_context\
+[](fg:seg3 bg:accent)\
+$hostname\
+[ ](fg:accent)\
+"""
+command_timeout = 5000
+# Disable the blank line at the start of the prompt
+# add_newline = false
+
+# Colour gradient, chosen per OS by the install scripts:
+# blue = Fedora, green = macOS, orange = Ubuntu, red = Debian
+palette = "green"
+
+[palettes.blue]
+seg1 = "#4A5972"
+seg2 = "#516785"
+seg3 = "#577499"
+accent = "#5E81AC"
+
+[palettes.green]
+seg1 = "#51605F"
+seg2 = "#5F7361"
+seg3 = "#6C8762"
+accent = "#7A9A63"
+
+[palettes.orange]
+seg1 = "#665B63"
+seg2 = "#8A6A67"
+seg3 = "#AD786C"
+accent = "#D08770"
+
+[palettes.red]
+seg1 = "#625161"
+seg2 = "#815764"
+seg3 = "#A05C67"
+accent = "#BF616A"
+
+# You can also replace your username with a neat symbol like  to save some space
+[username]
+show_always = true
+style_user = "bg:#3B4252"
+style_root = "bg:#3B4252"
+format = '[$user ]($style)'
+
+[directory]
+style = "bg:#434C5E"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+# Here is how you can shorten some long paths by text replacement
+# similar to mapped_locations in Oh My Posh:
+#[directory.substitutions]
+#"Documents" = " "
+#"Downloads" = " "
+#"Music" = " "
+#"Pictures" = " "
+# Keep in mind that the order matters. For example:
+# "Important Documents" = "  "
+# will not be replaced, because "Documents" was already substituted before.
+# So either put "Important Documents" before "Documents" or use the substituted version:
+# "Important  " = "  "
+
+[c]
+symbol = " "
+style = "bg:seg2"
+format = '[ $symbol ($version) ]($style)'
+
+[docker_context]
+symbol = " "
+style = "bg:seg3"
+format = '[ $symbol $context ]($style) $path'
+
+[elixir]
+symbol = " "
+style = "bg:seg2"
+format = '[ $symbol ($version) ]($style)'
+
+[elm]
+symbol = " "
+style = "bg:seg2"
+format = '[ $symbol ($version) ]($style)'
+
+[git_branch]
+symbol = ""
+style = "bg:seg1"
+format = '[ $symbol $branch ]($style)'
+
+[git_status]
+style = "bg:seg1"
+format = '[$all_status$ahead_behind ]($style)'
+
+[golang]
+symbol = " "
+style = "bg:seg2"
+format = '[ $symbol ($version) ]($style)'
+
+[haskell]
+symbol = " "
+style = "bg:seg2"
+format = '[ $symbol ($version) ]($style)'
+
+[java]
+symbol = " "
+style = "bg:seg2"
+format = '[ $symbol ($version) ]($style)'
+
+[julia]
+symbol = " "
+style = "bg:seg2"
+format = '[ $symbol ($version) ]($style)'
+
+[nodejs]
+symbol = ""
+style = "bg:seg2"
+format = '[ $symbol ($version) ]($style)'
+
+[nim]
+symbol = " "
+style = "bg:seg2"
+format = '[ $symbol ($version) ]($style)'
+
+[python]
+style = "bg:#3B4252"
+format = '[(\($virtualenv\) )]($style)'
+
+[rust]
+symbol = ""
+style = "bg:seg2"
+format = '[ $symbol ($version) ]($style)'
+
+[time]
+disabled = true
+time_format = "%R" # Hour:Minute Format
+style = "bg:accent"
+format = '[ $time ]($style)'
+
+[hostname]
+ssh_only = false
+style = "bg:accent"
+format = '[ $hostname ]($style)'

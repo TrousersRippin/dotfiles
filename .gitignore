@@ -1,0 +1,6 @@
+# Secrets: keep local, never commit
+pgpass
+rclone/rclone.conf
+
+# Local-only scripts
+restow.sh

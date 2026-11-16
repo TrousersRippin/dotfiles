@@ -1,0 +1,116 @@
+" Set defaults for XDG environment variables if not defined
+if empty($XDG_CONFIG_HOME) | let $XDG_CONFIG_HOME = $HOME.'/.config' | endif
+if empty($XDG_DATA_HOME)   | let $XDG_DATA_HOME = $HOME.'/.local/share' | endif
+if empty($XDG_STATE_HOME)  | let $XDG_STATE_HOME = $HOME.'/.local/state' | endif
+
+" Configure XDG-compliant paths
+set runtimepath^=$XDG_CONFIG_HOME/vim
+set runtimepath+=$XDG_DATA_HOME/vim
+set runtimepath+=$XDG_CONFIG_HOME/vim/after
+set packpath^=$XDG_DATA_HOME/vim,$XDG_CONFIG_HOME/vim
+
+" fzf base plugin (needed by fzf.vim): Homebrew, or Debian/Ubuntu's apt
+" package. Fedora's package already installs it on the default runtimepath
+if isdirectory('/opt/homebrew/opt/fzf')
+  set runtimepath+=/opt/homebrew/opt/fzf
+elseif isdirectory('/usr/share/doc/fzf/examples/plugin')
+  set runtimepath+=/usr/share/doc/fzf/examples
+endif
+
+" Configure netrw home directory
+let g:netrw_home = $XDG_DATA_HOME."/vim"
+
+" Create directories
+silent! call mkdir($XDG_DATA_HOME."/vim/spell", 'p')
+" Trailing // names backup and swap files after their full path, so files
+" with the same name in different folders don't overwrite each other's
+silent! call mkdir($XDG_STATE_HOME."/vim/backup", 'p')
+silent! call mkdir($XDG_STATE_HOME."/vim/swap", 'p')
+set backupdir=$XDG_STATE_HOME/vim/backup//
+set directory=$XDG_STATE_HOME/vim/swap//
+set undodir=$XDG_STATE_HOME/vim/undo     | silent! call mkdir(&undodir, 'p')
+set viewdir=$XDG_STATE_HOME/vim/view     | silent! call mkdir(&viewdir, 'p')
+
+" Set viminfo file location
+set viminfofile=$XDG_STATE_HOME/vim/viminfo
+
+" Enable file safety features
+set undofile
+set writebackup
+set backup
+set backupcopy=yes
+
+" Appearance
+silent! colorscheme nord
+set number
+set cursorline
+set laststatus=2
+set noshowmode
+set nowrap
+set showmatch
+set scrolloff=3
+
+" Lightline statusline configuration
+let g:lightline = {
+  \ 'colorscheme': 'nord',
+  \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+  \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
+  \ }
+
+" Indentation and tabs
+set autoindent
+set expandtab
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+
+" General settings
+set history=10000
+set timeoutlen=500
+set ttimeout ttimeoutlen=100   " Don't wait after Esc
+set mouse=a
+set autoread                   " Reload files changed outside Vim
+set display=lastline           " Show as much of a long last line as fits
+set nrformats-=octal           " Ctrl-A/Ctrl-X treat 007 as decimal
+set formatoptions+=j           " Remove comment leaders when joining lines
+packadd! matchit               " Extend % to if/endif, HTML tags, etc.
+
+" Use the system clipboard for yank/delete/put locally; over SSH use
+" OSCYank (<leader>c) instead, as the remote clipboard isn't the local one
+if has('clipboard') && empty($SSH_CONNECTION)
+  if has('mac')
+    set clipboard=unnamed
+  elseif !empty($DISPLAY) || !empty($WAYLAND_DISPLAY)
+    set clipboard=unnamedplus
+  endif
+endif
+
+" Search settings
+set ignorecase smartcase
+set incsearch hlsearch
+
+" Command-line completion
+set wildmenu wildmode=list:longest
+set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx,*.DS_Store
+
+filetype plugin indent on
+syntax on
+
+" Treat Nomad job files as HCL (augroup stops re-sourcing from adding duplicates)
+augroup vimrc
+  autocmd!
+  autocmd BufRead,BufNewFile *.nomad,*.nomad.hcl set filetype=hcl
+augroup END
+
+" Leader key
+let mapleader = " "
+
+" Key mappings
+nnoremap <leader>ff :Files<CR>
+nnoremap <leader>fr :History<CR>
+nnoremap <leader>nn :set number!<CR>
+nnoremap <leader>ss :setlocal spell! spelllang=en_gb<CR>
+nnoremap <leader><space> :nohlsearch<CR>
+nmap <leader>c <Plug>OSCYankOperator
+nmap <leader>cc <leader>c_
+xmap <leader>c <Plug>OSCYankVisual

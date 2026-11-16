@@ -1,0 +1,55 @@
+[advice]
+  addEmptyPathspec = false
+  mergeConflict = false
+  pushNonFastForward = false
+  statusHints = false
+
+[color]
+  branch = auto
+  status = auto
+  ui = auto
+
+[color "diff"]
+  frag = magenta bold
+  meta = yellow bold
+  new = green bold
+  old = red bold
+
+[commit]
+  template = ~/.config/git/message
+
+[core]
+  editor = vim
+
+[credential]
+  helper = osxkeychain
+
+[init]
+  defaultBranch = main
+
+[pull]
+  rebase = true
+
+[push]
+  autoSetupRemote = true
+  default = simple
+
+[status]
+  aheadBehind = true
+  branch = true
+  short = false
+  showStash = true
+  showUntrackedFiles = all
+  verbose = true
+
+[user]
+  name = Troy Rippin
+  email = troy.rippin@icloud.com
+
+[credential "https://github.com"]
+  helper =
+  helper = !gh auth git-credential
+
+[credential "https://gist.github.com"]
+  helper =
+  helper = !gh auth git-credential

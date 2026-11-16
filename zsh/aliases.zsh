@@ -1,0 +1,22 @@
+# General
+alias ..='cd ..'
+if command -v bat >/dev/null 2>&1; then
+  alias cat='bat'
+elif command -v batcat >/dev/null 2>&1; then
+  # Debian/Ubuntu install bat as batcat
+  alias bat='batcat'
+  alias cat='batcat'
+fi
+alias clean='find . -type f -name ".DS_Store" -delete'
+alias cls='clear'
+alias duf='duf --hide-fs tmpfs,devtmpfs --output filesystem,size,used,avail,usage,mountpoint --sort usage --style ascii'
+alias flush='sudo killall -HUP mDNSResponder'
+alias ll='ls -aFhl'
+alias ls='ls --color=auto -h --group-directories-first'
+alias svim='sudo vim'
+
+# Scripts
+alias restow='$XDG_DATA_HOME/scripts/restow.sh'
+alias tech-docs='$XDG_DATA_HOME/scripts/tech_docs.sh'
+alias homelab_backup='$XDG_DATA_HOME/scripts/homelab_backup.sh'
+alias plex_backup='$XDG_DATA_HOME/scripts/plex_backup.sh'

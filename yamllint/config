@@ -1,0 +1,45 @@
+---
+extends: default
+
+yaml-files:
+  - '*.yaml'
+  - '*.yml'
+  - '.yamllint'
+
+rules:
+  document-start: disable
+  line-length:
+    max: 170
+    level: warning
+    allow-non-breakable-words: true
+
+  indentation:
+    spaces: 2
+    indent-sequences: consistent
+
+  truthy:
+    allowed-values: ['true', 'false']
+    check-keys: true
+
+  comments:
+    require-starting-space: false
+    min-spaces-from-content: 1
+
+  comments-indentation: disable
+
+  empty-lines:
+    max: 2
+    max-start: 0
+    max-end: 0
+
+  key-duplicates: enable
+  trailing-spaces: enable
+  new-line-at-end-of-file: enable
+
+  braces:
+    max-spaces-inside: 1
+  brackets:
+    max-spaces-inside: 1
+
+ignore: |
+  **/vars/vault.yaml
