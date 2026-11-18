@@ -1,6 +1,7 @@
 # Secrets: keep local, never commit
 pgpass
 rclone/rclone.conf
+gh/hosts.yml
 
 # Local-only scripts
 restow.sh
