@@ -1,6 +1,11 @@
 ---
 hosts:
   - host: ssh://troy@10.1.1.11
-icons: nerd
+icons: auto
 all: true
 sort: name
+hyperlinks: auto
+stats_header: true
+timestamps: true
+app_logos: false
+panes: false
