@@ -8,6 +8,7 @@ export VISUAL="vim"
 
 export LANG="en_GB.UTF-8"
 export LC_ALL="en_GB.UTF-8"
+export PATH="$HOME/.local/bin:$PATH"
 export COLORTERM="truecolor"
 
 # Ansible
