@@ -98,12 +98,10 @@ fi
 mkdir -p "${HOME}"/.cache "${HOME}"/.config "${HOME}"/.local/share "${HOME}"/.local/state
 
 # --- Software menu ----------------------------------------------------------
-duf_default=$([[ "${FAMILY}" == debian ]] && echo ON || echo OFF)
-
 if ! CHOICES_RAW=$(whiptail --separate-output --title "Linux software & dotfiles installer" --backtitle "<Tab> moves; <Space> select; <Enter> continue;" --checklist \
   "Select packages to install" 0 80 10 \
   "bat" "text viewer" ON \
-  "duf" "disk usage viewer" "${duf_default}" \
+  "duf" "disk usage viewer" ON \
   "fastfetch" "system information" ON \
   "fzf" "interactive filter" ON \
   "htop" "system monitor" ON \
