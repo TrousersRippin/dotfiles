@@ -25,7 +25,8 @@ bindkey -v
 KEYTIMEOUT=1   # 10ms Esc delay in vi mode (default 40 = 0.4s)
 # Over SSH, a paste's closing Esc[201~ can arrive split; 10ms is too short and
 # zsh reads it as Esc + vi commands (~ flips the case of the last character)
-[[ -n $SSH_CONNECTION ]] && KEYTIMEOUT=20   # 200ms
+# sudo's env_reset drops SSH_CONNECTION, so treat sudo shells the same way
+[[ -n $SSH_CONNECTION || -n $SUDO_USER ]] && KEYTIMEOUT=20   # 200ms
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
 bindkey '^F' forward-char
