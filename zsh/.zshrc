@@ -1,7 +1,4 @@
 # --- Terminal ---------------------------------------------------------------
-# Over SSH the remote may have no terminfo for the local terminal (e.g.
-# xterm-ghostty); fall back to xterm-256color only then, so tmux's TERM and
-# the Linux console's TERM=linux are left alone
 if [[ -n $TERM ]] && (( $+commands[infocmp] )) && ! infocmp "$TERM" &>/dev/null; then
   export TERM=xterm-256color
 fi
@@ -21,21 +18,11 @@ if [[ "$TERM" == "linux" ]]; then
 fi
 
 # --- Keybindings ------------------------------------------------------------
-bindkey -v
-KEYTIMEOUT=1   # 10ms Esc delay in vi mode (default 40 = 0.4s)
-# Over SSH, a paste's closing Esc[201~ can arrive split; 10ms is too short and
-# zsh reads it as Esc + vi commands (~ flips the case of the last character)
-# sudo's env_reset drops SSH_CONNECTION, so treat sudo shells the same way
-[[ -n $SSH_CONNECTION || -n $SUDO_USER ]] && KEYTIMEOUT=20   # 200ms
-bindkey '^A' beginning-of-line
-bindkey '^E' end-of-line
-bindkey '^F' forward-char
-bindkey '^B' backward-char
-bindkey '^W' backward-kill-word
-bindkey '^K' kill-line
+bindkey -e
 bindkey '^U' backward-kill-line
-bindkey '^[f' forward-word
-bindkey '^[b' backward-word
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^X^E' edit-command-line
 
 # --- Options ----------------------------------------------------------------
 autoload -U zmv
@@ -62,16 +49,12 @@ setopt hist_find_no_dups hist_ignore_all_dups hist_ignore_space
 setopt hist_reduce_blanks hist_save_no_dups hist_verify
 
 # --- Completion -------------------------------------------------------------
-# zsh-completions must be on fpath before compinit runs
-# /bin/zsh doesn't include Homebrew's completions dir; (N-/) skips it if absent (Linux)
 fpath=(
   "$XDG_CONFIG_HOME/zsh/plugins/zsh-completions/src"
   /opt/homebrew/share/zsh/site-functions(N-/)
   $fpath
 )
 
-# Prefer zsh's built-in _git over Homebrew's bash-based wrapper
-# (system dirs come last in fpath, so [-1] picks zsh's own copy)
 autoload -Uz $^fpath/_git(N[-1])
 
 autoload -Uz compinit
@@ -97,9 +80,6 @@ zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/zcompcache"
 zstyle ':completion:*' rehash true
 
-# Under `sudo -s` root inherits this config, and compaudit flags fpath dirs owned
-# by the real user as insecure. -i skips them silently; a separate dump file keeps
-# root from leaving a root-owned zcompdump that the normal user can't rewrite.
 if (( EUID == 0 )); then
   compinit -i -d "$XDG_CACHE_HOME/zsh/zcompdump-root"
 else

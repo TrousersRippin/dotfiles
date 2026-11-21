@@ -10,7 +10,6 @@ export LANG="en_GB.UTF-8"
 export LC_ALL="en_GB.UTF-8"
 export PATH="$HOME/.local/bin:$PATH"
 export COLORTERM="truecolor"
-export TERM="xterm-256color"
 
 # Ansible
 export ANSIBLE_HOME="$XDG_CONFIG_HOME/ansible"
