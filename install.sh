@@ -202,11 +202,11 @@ for choice in "${CHOICES[@]}"; do
   esac
 done
 
-summary="Installed and configured: ${INSTALLED[*]:-none}"
+summary="Installed and Configured: ${INSTALLED[*]:-none}"
 if (( ${#NOT_INSTALLED[@]} )); then
   summary+="\n\nFailed (not in the ${ID} repositories?): ${NOT_INSTALLED[*]}\n\nDetails in ${LOG}"
 fi
-whiptail --title "Install summary" --msgbox "$(echo -e "${summary}")" 16 80
+whiptail --title "Install Summary" --msgbox "$(echo -e "${summary}")" 16 80
 
 # --- Post-install -----------------------------------------------------------
 # Only remove the bash dotfiles once zsh is installed and is the login shell
