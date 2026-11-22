@@ -3,7 +3,6 @@
 --tabs=4
 --theme=Nord
 --wrap=never
---color=always
 --italic-text=always
 
 --map-syntax="*.conf:INI"
