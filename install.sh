@@ -282,13 +282,14 @@ else
 fi
 
 # --- Clean up ---------------------------------------------------------------
-# Configs are copied, not linked, so the clone isn't needed afterwards. Only
-# offer to delete it when everything worked (otherwise it's needed to fix and
-# re-run), only if it's really this repo, never $HOME itself, and only on Yes
+# The clone is only here to install from; configs are copied, not linked, so
+# it isn't needed afterwards. Delete is the default answer. Only offer it when
+# everything worked (otherwise it's needed to fix and re-run), and only if it's
+# really this repo, never $HOME itself
 if (( ${#FAILED[@]} || ${#NOT_INSTALLED[@]} || ${#SETUP_FAILED[@]} )); then
   info "Kept ${DOTFILES} so you can fix the failures and re-run."
 elif [[ -d "${DOTFILES}/.git" && -f "${DOTFILES}/install.sh" && "${DOTFILES}" != "${HOME}" ]]; then
-  if whiptail --title "Clean Up" --defaultno --yesno "Delete the dotfiles repo at ${DOTFILES}?"$'\n\n'"Any uncommitted changes in it will be lost." 10 80; then
+  if whiptail --title "Clean Up" --yesno "Delete the dotfiles repo at ${DOTFILES}?"$'\n\n'"Any uncommitted changes in it will be lost." 10 80; then
     rm -rf "${DOTFILES}"
     notice "Removed ${DOTFILES}"
   else
