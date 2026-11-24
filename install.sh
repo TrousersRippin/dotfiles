@@ -218,29 +218,54 @@ for choice in "${CHOICES[@]}"; do
   esac
 done
 
-summary="Installed and configured: ${INSTALLED[*]:-none}"
-if (( ${#NOT_INSTALLED[@]} )); then
-  summary+="\n\nPackage not installed (not in the ${ID} repositories?): ${NOT_INSTALLED[*]}"
-fi
-if (( ${#SETUP_FAILED[@]} )); then
-  summary+="\n\nInstalled, but setup failed: ${SETUP_FAILED[*]}"
-fi
-if (( ${#FAILED[@]} )); then
-  summary+="\n\nFailed commands:"
-  for cmd in "${FAILED[@]}"; do
-    summary+="\n  - ${cmd}"
+# --- Summary ----------------------------------------------------------------
+# A heading per result, with bullets: packages three to a line, commands one
+# per line. A 24-row terminal only fits ~16 lines of text, and every line is
+# kept short enough not to wrap, so the box height can be worked out exactly
+summary=""
+short() {
+  local s=${1//"${HOME}"/\~}
+  (( ${#s} > 70 )) && s="${s:0:67}..."
+  printf '%s' "${s}"
+}
+# $1 = items per line, $2 = heading, rest = items
+add_section() {
+  local per_line=$1 heading=$2 i line=""; shift 2
+  (( $# )) || return 0
+  [[ -n "${summary}" ]] && summary+=$'\n'
+  summary+="${heading}"$'\n'
+  for (( i = 1; i <= $#; i++ )); do
+    if (( per_line > 1 )); then
+      line+=$(printf '  - %-18s' "${!i}")
+    else
+      line="  - $(short "${!i}")"
+    fi
+    if (( i % per_line == 0 || i == $# )); then
+      summary+="${line%"${line##*[! ]}"}"$'\n'
+      line=""
+    fi
   done
-  summary+="\n\nDetails in ${LOG}"
+}
+add_section 3 "Installed and configured:" "${INSTALLED[@]}"
+add_section 3 "Not installed (not in the ${ID} repositories?):" "${NOT_INSTALLED[@]}"
+add_section 3 "Installed, but setup failed:" "${SETUP_FAILED[@]}"
+add_section 1 "Failed commands:" "${FAILED[@]}"
+if (( ${#FAILED[@]} )); then
+  summary+=$'\n'"Details in $(short "${LOG}")"
 fi
+[[ -n "${summary}" ]] || summary="Nothing was installed."
+summary=${summary%$'\n'}
 
-# Size the box to the text (wrapped to the box width), capped to the terminal;
-# --scrolltext lets anything longer scroll instead of being cut off
-summary_text="$(echo -e "${summary}")"
-box_height=$(( $(fold -s -w 74 <<< "${summary_text}" | wc -l) + 7 ))
+# Box = text lines + borders and button, capped to the terminal height. Only
+# scroll when capped: --scrolltext draws a scroll arrow even when it all fits
+box_height=$(( $(wc -l <<< "${summary}") + 7 ))
 max_height=$(( $(tput lines 2>/dev/null || echo 24) - 2 ))
-(( box_height > max_height )) && box_height=${max_height}
-(( box_height < 10 )) && box_height=10
-whiptail --title "Install Summary" --scrolltext --msgbox "${summary_text}" "${box_height}" 80
+scroll=()
+if (( box_height > max_height )); then
+  box_height=${max_height}
+  scroll=(--scrolltext)
+fi
+whiptail --title "Install Summary" "${scroll[@]}" --msgbox "${summary}" "${box_height}" 80
 
 # --- Post-install -----------------------------------------------------------
 # Only remove the bash dotfiles once zsh is installed and is the login shell
