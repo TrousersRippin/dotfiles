@@ -1,5 +1,7 @@
 #!/bin/bash
 # Linux software & dotfiles installer for Debian/Ubuntu and RHEL/CentOS/Fedora
+# The install_* functions are called indirectly as "install_${choice}"
+# shellcheck disable=SC2329
 
 # Use the repo this script lives in, wherever it is run from
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -115,38 +117,41 @@ if ! CHOICES_RAW=$(whiptail --separate-output --title "Linux software & dotfiles
 fi
 mapfile -t CHOICES <<< "${CHOICES_RAW}"
 
-# --- Installers (return non-zero if the package failed) ---------------------
+# --- Installers -------------------------------------------------------------
+# Return 0 on success, 1 if the package didn't install, 2 if the package
+# installed but a setup step (config copy, plugin clone, chsh) failed.
+# Setup steps all go through run, so failures are logged and listed.
 install_bat() {
   pkg_install bat || return 1
-  cp -R "${DOTFILES}"/bat "${HOME}"/.config/
+  run cp -R "${DOTFILES}"/bat "${HOME}"/.config/ || return 2
 }
 
 install_duf() {
-  pkg_install duf
+  pkg_install duf || return 1
 }
 
 install_fastfetch() {
   pkg_install fastfetch || return 1
-  cp -R "${DOTFILES}"/fastfetch "${HOME}"/.config/
+  run cp -R "${DOTFILES}"/fastfetch "${HOME}"/.config/ || return 2
 }
 
 install_fzf() {
-  pkg_install fzf
+  pkg_install fzf || return 1
 }
 
 install_htop() {
   pkg_install htop || return 1
-  cp -R "${DOTFILES}"/htop "${HOME}"/.config/
+  run cp -R "${DOTFILES}"/htop "${HOME}"/.config/ || return 2
 }
 
 install_less() {
   pkg_install less || return 1
-  cp "${DOTFILES}"/less/lesskey "${HOME}"/.config/
+  run cp "${DOTFILES}"/less/lesskey "${HOME}"/.config/ || return 2
 }
 
 install_starship() {
   pkg_install starship || return 1
-  cp -R "${DOTFILES}"/starship "${HOME}"/.config/
+  run cp -R "${DOTFILES}"/starship "${HOME}"/.config/ || return 2
   local palette=""
   case "${ID}" in
     ubuntu) palette=orange ;;
@@ -155,58 +160,87 @@ install_starship() {
     *) ;;
   esac
   if [[ -n "${palette}" ]]; then
-    sed -i -e "s/^palette = .*/palette = \"${palette}\"/" "${HOME}"/.config/starship/starship.toml
+    run sed -i -e "s/^palette = .*/palette = \"${palette}\"/" "${HOME}"/.config/starship/starship.toml || return 2
   fi
 }
 
+# Plugin steps keep going after a failure, so one bad clone doesn't skip the rest
 install_vim() {
   pkg_install vim || return 1
-  cp -R "${DOTFILES}"/vim "${HOME}"/.config/
-  mkdir -p "${HOME}"/.config/vim/after "${HOME}"/.config/vim/autoload
-  clone https://github.com/hashivim/vim-terraform.git "${HOME}"/.config/vim/pack/hashivim/start/vim-terraform
-  clone https://github.com/itchyny/lightline.vim      "${HOME}"/.config/vim/pack/itchyny/start/lightline
-  clone https://github.com/junegunn/fzf.vim.git       "${HOME}"/.config/vim/pack/junegunn/start/fzf.vim
-  clone https://github.com/ojroques/vim-oscyank.git   "${HOME}"/.config/vim/pack/ojroques/start/vim-oscyank
+  local rc=0
+  run cp -R "${DOTFILES}"/vim "${HOME}"/.config/ || rc=2
+  run mkdir -p "${HOME}"/.config/vim/after "${HOME}"/.config/vim/autoload || rc=2
+  clone https://github.com/hashivim/vim-terraform.git "${HOME}"/.config/vim/pack/hashivim/start/vim-terraform || rc=2
+  clone https://github.com/itchyny/lightline.vim      "${HOME}"/.config/vim/pack/itchyny/start/lightline     || rc=2
+  clone https://github.com/junegunn/fzf.vim.git       "${HOME}"/.config/vim/pack/junegunn/start/fzf.vim      || rc=2
+  clone https://github.com/ojroques/vim-oscyank.git   "${HOME}"/.config/vim/pack/ojroques/start/vim-oscyank  || rc=2
+  return "${rc}"
 }
 
+# ZSH_OK means zsh is the login shell, so the bash dotfiles can go
 ZSH_OK=0
 install_zsh() {
   pkg_install zsh || return 1
-  mkdir -p "${HOME}"/.cache/zsh "${HOME}"/.local/state/zsh
-  cp "${DOTFILES}"/dir_colors/dir_colors "${HOME}"/.config/
-  cp -R "${DOTFILES}"/zsh "${HOME}"/.config/
+  local rc=0
+  run mkdir -p "${HOME}"/.cache/zsh "${HOME}"/.local/state/zsh || rc=2
+  run cp "${DOTFILES}"/dir_colors/dir_colors "${HOME}"/.config/ || rc=2
+  run cp -R "${DOTFILES}"/zsh "${HOME}"/.config/ || rc=2
   # .zprofile only holds macOS Homebrew paths
-  rm -f "${HOME}"/.config/zsh/.zprofile
-  clone https://github.com/zsh-users/zsh-autosuggestions.git      "${HOME}"/.config/zsh/plugins/zsh-autosuggestions
-  clone https://github.com/zsh-users/zsh-completions.git          "${HOME}"/.config/zsh/plugins/zsh-completions
-  clone https://github.com/zsh-users/zsh-syntax-highlighting.git  "${HOME}"/.config/zsh/plugins/zsh-syntax-highlighting
-  ln -sf "${HOME}"/.config/zsh/.zshenv "${HOME}"/.zshenv
-  run sudo chsh -s "$(command -v zsh)" "${USER}" || return 1
-  ZSH_OK=1
+  run rm -f "${HOME}"/.config/zsh/.zprofile || rc=2
+  clone https://github.com/zsh-users/zsh-autosuggestions.git      "${HOME}"/.config/zsh/plugins/zsh-autosuggestions     || rc=2
+  clone https://github.com/zsh-users/zsh-completions.git          "${HOME}"/.config/zsh/plugins/zsh-completions         || rc=2
+  clone https://github.com/zsh-users/zsh-syntax-highlighting.git  "${HOME}"/.config/zsh/plugins/zsh-syntax-highlighting || rc=2
+  run ln -sf "${HOME}"/.config/zsh/.zshenv "${HOME}"/.zshenv || rc=2
+  if run sudo chsh -s "$(command -v zsh)" "${USER}"; then
+    ZSH_OK=1
+  else
+    rc=2
+  fi
+  return "${rc}"
 }
 
 INSTALLED=()
 NOT_INSTALLED=()
+SETUP_FAILED=()
 for choice in "${CHOICES[@]}"; do
   case "${choice}" in
     bat|duf|fastfetch|fzf|htop|less|starship|vim|zsh)
       info "Installing ${choice}..."
-      if "install_${choice}"; then
-        INSTALLED+=("${choice}")
-      else
-        NOT_INSTALLED+=("${choice}")
-      fi
+      if "install_${choice}"; then rc=0; else rc=$?; fi
+      case ${rc} in
+        0) INSTALLED+=("${choice}") ;;
+        1) NOT_INSTALLED+=("${choice}") ;;
+        *) SETUP_FAILED+=("${choice}") ;;
+      esac
       ;;
     "") ;;
     *) error "Unknown choice: ${choice}" ;;
   esac
 done
 
-summary="Installed and Configured: ${INSTALLED[*]:-none}"
+summary="Installed and configured: ${INSTALLED[*]:-none}"
 if (( ${#NOT_INSTALLED[@]} )); then
-  summary+="\n\nFailed (not in the ${ID} repositories?): ${NOT_INSTALLED[*]}\n\nDetails in ${LOG}"
+  summary+="\n\nPackage not installed (not in the ${ID} repositories?): ${NOT_INSTALLED[*]}"
 fi
-whiptail --title "Install Summary" --msgbox "$(echo -e "${summary}")" 16 80
+if (( ${#SETUP_FAILED[@]} )); then
+  summary+="\n\nInstalled, but setup failed: ${SETUP_FAILED[*]}"
+fi
+if (( ${#FAILED[@]} )); then
+  summary+="\n\nFailed commands:"
+  for cmd in "${FAILED[@]}"; do
+    summary+="\n  - ${cmd}"
+  done
+  summary+="\n\nDetails in ${LOG}"
+fi
+
+# Size the box to the text (wrapped to the box width), capped to the terminal;
+# --scrolltext lets anything longer scroll instead of being cut off
+summary_text="$(echo -e "${summary}")"
+box_height=$(( $(fold -s -w 74 <<< "${summary_text}" | wc -l) + 7 ))
+max_height=$(( $(tput lines 2>/dev/null || echo 24) - 2 ))
+(( box_height > max_height )) && box_height=${max_height}
+(( box_height < 10 )) && box_height=10
+whiptail --title "Install Summary" --scrolltext --msgbox "${summary_text}" "${box_height}" 80
 
 # --- Post-install -----------------------------------------------------------
 # Only remove the bash dotfiles once zsh is installed and is the login shell
@@ -222,22 +256,32 @@ else
   info "zsh is not the login shell, so the bash dotfiles were kept."
 fi
 
+# --- Clean up ---------------------------------------------------------------
+# Configs are copied, not linked, so the clone isn't needed afterwards. Only
+# offer to delete it when everything worked (otherwise it's needed to fix and
+# re-run), only if it's really this repo, never $HOME itself, and only on Yes
+if (( ${#FAILED[@]} || ${#NOT_INSTALLED[@]} || ${#SETUP_FAILED[@]} )); then
+  info "Kept ${DOTFILES} so you can fix the failures and re-run."
+elif [[ -d "${DOTFILES}/.git" && -f "${DOTFILES}/install.sh" && "${DOTFILES}" != "${HOME}" ]]; then
+  if whiptail --title "Clean Up" --defaultno --yesno "Delete the dotfiles repo at ${DOTFILES}?"$'\n\n'"Any uncommitted changes in it will be lost." 10 80; then
+    rm -rf "${DOTFILES}"
+    notice "Removed ${DOTFILES}"
+  else
+    info "Kept ${DOTFILES}"
+  fi
+fi
+
+# --- Exit/Reboot ------------------------------------------------------------
+# whiptail returns 0 for Exit, 1 for Reboot and 255 for Esc; only reboot when
+# Reboot was actually chosen
+whiptail --title "Exit or Reboot" --yes-button "Exit" --no-button "Reboot" --yesno "Do you want to exit or reboot?" 10 80
+if (( $? == 1 )); then
+  sudo reboot
+fi
+
+# The dialogs cover terminal output, so list failures again on the way out
 if (( ${#FAILED[@]} )); then
   error "${#FAILED[@]} command(s) failed. Details in ${LOG}:"
   printf '  - %s\n' "${FAILED[@]}"
 fi
-
-# --- Clean up ---------------------------------------------------------------
-# Configs are copied, not linked, so the clone isn't needed afterwards.
-# Only delete a directory that is really this repo, never $HOME itself
-if [[ -d "${DOTFILES}/.git" && -f "${DOTFILES}/install.sh" && "${DOTFILES}" != "${HOME}" ]]; then
-  rm -rf "${DOTFILES}"
-  notice "Removed ${DOTFILES}"
-fi
-
-# --- Exit/Reboot ------------------------------------------------------------
-if whiptail --title "Exit or Reboot" --yes-button "Exit" --no-button "Reboot" --yesno "Do you want to exit or reboot?" 10 80; then
-  exit 0
-else
-  sudo reboot
-fi
+exit 0
